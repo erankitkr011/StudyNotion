@@ -18,11 +18,11 @@ export const getCatalogPageData = async (categoryId) => {
     )
     console.log(response);
     if (!response?.data?.success) {
-      throw new Error("Could Not Fetch Catagory page data.")
+      throw new Error(response?.data?.message)
     }
     result = response?.data
   } catch (error) {
-    console.log("CATALOGPAGEDATA_API API ERROR............", error)
+    console.log( error)
     toast.error(error.message)
     result = error.response?.data
   }

@@ -9,60 +9,56 @@ const { passwordUpdated } = require('../mail/templates/passwordUpdate');
 require('dotenv').config();
 
 
-const sendotp = async(req, res ) => {
-    try {
-        // fetch email from request
-        console.log("Request received for OTP generation");
-        const { email } = req.body;
-        console.log(email);
+const generateOTP=async()=>{
+    const otp=otpGenerator.generate(6,{
+        upperCaseAlphabets:false,
+        lowerCaseAlphabets:false,
+        specialChars: false
+    });
 
-        // validation --> check whether user is registered or not
-        const isUserPresent = await User.findOne({email: email});
-        
-        if(isUserPresent) {
+    const existingOTP=await OTP.findOne({otp});
+
+    if(existingOTP){
+        return generateOTP();
+    }
+
+    return otp;
+}
+
+const sendotp=async(req,res,next)=>{
+    try{
+        //fetch email
+        const {email}=req.body;
+        console.log(email);
+        //validate
+        const isUserPresent=await User.findOne({email:email});
+
+        if(isUserPresent){
             return res.status(401).json({
-                success: false,
-                message: "User already registered"
+                success:false,
+                message:"User already registered"
             })
         }
+        //generate otp
+        const otp=await generateOTP();
 
-        // how to generate otp //
-        
-        do {
-            var otp = otpGenerator.generate(6, {
-                upperCaseAlphabets: false,
-                lowerCaseAlphabets: false,
-                specialChars: false
-            })
+        //create entry otp in db
+        await OTP.create({email,otp});
 
-            var result = await OTP.findOne({otp: otp});
-            
-        } while (result);
-
-
-        // creating entry of otp in database
-        const otpPayload = {email, otp};
-        console.log("hello");
-        const otpBody = await OTP.create(otpPayload);
-
-        console.log("hello");
-        res.status(200).json({
-            success: true,
-            message: "OTP sent successfully",
-            otp: otp,
+        return res.status(200).json({
+            success:true,
+            message:"OTP sent successfully",
+            otp
         })
-        console.log("hello");
-    } catch (error) {
-        console.log("error hello");
-        console.log("Error while sending OTP", error.message);
-        res.status(501).json({
-            success: false,
-            message: "Internal Server Error",
-            error: error.message
+    }
+    catch(error){
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"Something went wrong while sending OTP"
         })
     }
 }
-
 
 const signup = async(req, res) => {
     try {
@@ -93,7 +89,7 @@ const signup = async(req, res) => {
             })
         }
        
-        const recentOtp = await OTP.find({email: email}).sort({createdAt: -1}).limit(1); // HOW 
+        const recentOtp = await OTP.find({email: email}).sort({createdAt: -1}).limit(1);
         console.log("This is the otp  -> " , recentOtp);
 
         if(recentOtp.length == 0) {
