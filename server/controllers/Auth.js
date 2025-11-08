@@ -16,7 +16,13 @@ const generateOTP=async()=>{
         specialChars: false
     });
 
-    
+    const existingOTP=await OTP.findOne({otp});
+
+    if(existingOTP){
+        return generateOTP();
+    }
+
+    return otp;
 }
 
 const sendotp=async(req,res,next)=>{
