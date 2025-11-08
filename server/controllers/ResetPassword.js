@@ -21,7 +21,8 @@ const resetPasswordToken = async(req, res) => {
 
         await User.findOneAndUpdate({email: email}, {token: token, resetPasswordExpires: Date.now() + 5 * 60 * 1000}, {new: true});
          
-        const url =  `https://study-notion-six-sable.vercel.app/update-password/${token}`;
+        // const url =  `https://study-notion-six-sable.vercel.app/update-password/${token}`;
+        const url =  `http://localhost:4000/update-password/${token}`;
 
         await mailSender(
 			email,

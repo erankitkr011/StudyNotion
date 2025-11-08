@@ -1,0 +1,995 @@
+{
+  "info": {
+    "_postman_id": "2e898308-7139-4312-89e4-93fba3414396",
+    "name": "StudyNotion API",
+    "description": "Collection for testing StudyNotion backend. Set {{base_url}} and set {{token}} after login.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "33163132"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ankit\",\n  \"lastName\": \"Kumar\",\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"123\",\n  \"confirmPassword\": \"123\",\n  \"accountType\": \"Admin\",\n  \"otp\": \"313639\",\n  \"contactNumber\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/signup",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "signup"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"saksham@gmail.com\",\n  \"password\": \"123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"admin@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/sendotp",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "sendotp"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password (auth)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \n    \"oldPassword\": \"123\",\n    \"newPassword\": \"1234\",\n    \"confirmPassword\": \"1234\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/changepassword",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "changepassword"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"erankitkr011@gmail.com\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/reset-password-token",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "reset-password-token"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"password\": \"123\",\n    \"confirmPassword\": \"123\",\n    \"token\":\"6a76d5ce-fbc7-4b5e-a5cb-9dfa56c9523a\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/reset-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "reset-password"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get User Details (auth)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/profile/getUserDetails",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "getUserDetails"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Profile (auth)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"\",\n  \"lastName\": \"\",\n  \"dateOfBirth\": \"1990-01-01\",\n  \"about\": \"I am a student\",\n  \"contactNumber\": \"+1234567890\",\n  \"gender\": \"male\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/profile/updateProfile",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "updateProfile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Display Picture (auth) - form-data",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": "/Users/erankit/Downloads/Wallpaper/2022-doctor-strange-in-the-multiverse-of-madness-scarlet-witch-4k-aw-2880x1800.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/profile/updateDisplayPicture",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "updateDisplayPicture"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account (auth)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/profile/deleteProfile",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "deleteProfile"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Enrolled Courses (auth)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/profile/getEnrolledCourses",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "getEnrolledCourses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Instructor Dashboard (auth,isInstructor)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/profile/getInstructorDashboardDetails",
+              "host": ["{{base_url}}"],
+              "path": ["profile", "getInstructorDashboardDetails"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Capture Payment (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courses\": [\"6904bbe0b51093e3d0bc4637\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payment/capturePayment",
+              "host": ["{{base_url}}"],
+              "path": ["payment", "capturePayment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Verify Payment (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"razorpay_order_id\": \"order_Ra6xa4aiqHQAqw\",\n  \"razorpay_payment_id\": \"<razorpay_payment_id_from_client>\",\n  \"razorpay_signature\": \"<razorpay_signature_from_client>\",\n  \"courses\": [\"<courseId1>\", \"<courseId2>\"]\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payment/verifyPayment",
+              "host": ["{{base_url}}"],
+              "path": ["payment", "verifyPayment"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Send Payment Success Email (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"orderId\": \"{{razorpay_order_id}}\",\n  \"paymentId\": \"<razorpay_payment_id>\",\n  \"amount\": 10000\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/payment/sendPaymentSuccessEmail",
+              "host": ["{{base_url}}"],
+              "path": ["payment", "sendPaymentSuccessEmail"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Course",
+      "item": [
+        {
+          "name": "Create Course (auth,isInstructor) - form-data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "courseName",
+                  "value": "Advance DSA",
+                  "type": "text"
+                },
+                {
+                  "key": "courseDescription",
+                  "value": "Basic to Advance in cpp",
+                  "type": "text"
+                },
+                {
+                  "key": "whatYouWillLearn",
+                  "value": "All from basics",
+                  "type": "text"
+                },
+                {
+                  "key": "price",
+                  "value": "10000",
+                  "type": "text"
+                },
+                {
+                  "key": "category",
+                  "value": "6904b9cf25500064c913d52b",
+                  "type": "text"
+                },
+                {
+                  "key": "tag",
+                  "value": "cpp,dsa",
+                  "type": "text"
+                },
+                {
+                  "key": "thumbnail",
+                  "type": "file",
+                  "src": "/Users/erankit/Downloads/Wallpaper/doctor-strange-in-the-multiverse-of-madness-movie-5k-4s-2880x1800.jpg"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/course/createCourse",
+              "host": ["{{base_url}}"],
+              "path": ["course", "createCourse"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Section (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sectionName\": \"Section 2\",\n  \"courseId\": \"6904bbe0b51093e3d0bc4637\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/addSection",
+              "host": ["{{base_url}}"],
+              "path": ["course", "addSection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Section (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sectionId\": \"6904bc78b51093e3d0bc463c\",\n  \"sectionName\": \"Updated Section 1\",\n  \"courseId\": \"6904bbe0b51093e3d0bc4637\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/updateSection",
+              "host": ["{{base_url}}"],
+              "path": ["course", "updateSection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Section (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"sectionId\": \"6904bc78b51093e3d0bc463c\",\n  \"courseId\": \"6904bbe0b51093e3d0bc4637\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/deleteSection",
+              "host": ["{{base_url}}"],
+              "path": ["course", "deleteSection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add SubSection (auth,isInstructor) - form-data",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "sectionId",
+                  "value": "6904bd7fb51093e3d0bc4643",
+                  "type": "text"
+                },
+                {
+                  "key": "title",
+                  "value": "This is Section 2 content",
+                  "type": "text"
+                },
+                {
+                  "key": "timeDuration",
+                  "value": "10",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Best course 2nd cont",
+                  "type": "text"
+                },
+                {
+                  "key": "courseId",
+                  "value": "6904bbe0b51093e3d0bc4637",
+                  "type": "text"
+                },
+                {
+                  "key": "video",
+                  "type": "file",
+                  "src": "/Users/erankit/Downloads/Wallpaper/C++ explained in Just 2 Minutes 🚀.mp4"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/course/addSubSection",
+              "host": ["{{base_url}}"],
+              "path": ["course", "addSubSection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update SubSection (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "subSectionId",
+                  "value": "6904bfefb51093e3d0bc4653",
+                  "type": "text"
+                },
+                {
+                  "key": "title",
+                  "value": "",
+                  "type": "text"
+                },
+                {
+                  "key": "description",
+                  "value": "Best course 2nd cont updated",
+                  "type": "text"
+                },
+                {
+                  "key": "courseId",
+                  "value": "6904bbe0b51093e3d0bc4637",
+                  "type": "text"
+                },
+                {
+                  "key": "video",
+                  "type": "file",
+                  "src": []
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/course/updateSubSection",
+              "host": ["{{base_url}}"],
+              "path": ["course", "updateSubSection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete SubSection (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"subSectionId\": \"6904bfefb51093e3d0bc4653\",\n  \"sectionId\": \"6904bd7fb51093e3d0bc4643\",\n  \"courseId\": \"6904bbe0b51093e3d0bc4637\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/deleteSubSection",
+              "host": ["{{base_url}}"],
+              "path": ["course", "deleteSubSection"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/course/getAllCourses",
+              "host": ["{{base_url}}"],
+              "path": ["course", "getAllCourses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"6904bbe0b51093e3d0bc4637\" }"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/getCourseDetails",
+              "host": ["{{base_url}}"],
+              "path": ["course", "getCourseDetails"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Edit Course (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "courseId",
+                  "value": "6904bbe0b51093e3d0bc4637",
+                  "type": "text"
+                },
+                {
+                  "key": "courseName",
+                  "value": "Advance DSA with cpp",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{base_url}}/course/editCourse",
+              "host": ["{{base_url}}"],
+              "path": ["course", "editCourse"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Instructor Courses (auth,isInstructor)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/course/getInstructorCourses",
+              "host": ["{{base_url}}"],
+              "path": ["course", "getInstructorCourses"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Full Course Details (auth)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"6904bbe0b51093e3d0bc4637\" }"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/getFullCourseDetails",
+              "host": ["{{base_url}}"],
+              "path": ["course", "getFullCourseDetails"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Course (auth)",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"6904bbe0b51093e3d0bc4637\" }",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/course/deleteCourse",
+              "host": ["{{base_url}}"],
+              "path": ["course", "deleteCourse"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Search Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"searchQuery\": \"Advance DSA with cpp\" }"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/searchCourse",
+              "host": ["{{base_url}}"],
+              "path": ["course", "searchCourse"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Course Progress (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"<courseId>\",\n  \"subsectionId\": \"<subSectionId>\"\n}"
+            },
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Category (auth,isAdmin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Programming\",\n  \"description\": \"Courses about programming languages and tooling\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/createCategory",
+              "host": ["{{base_url}}"],
+              "path": ["course", "createCategory"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Show All Categories",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/course/showAllCategories",
+              "host": ["{{base_url}}"],
+              "path": ["course", "showAllCategories"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Category Page Details",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"categoryId\": \"6904b9cf25500064c913d52b\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/getCategoryPageDetails",
+              "host": ["{{base_url}}"],
+              "path": ["course", "getCategoryPageDetails"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Course To Category (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"6904bbe0b51093e3d0bc4637\",\n  \"categoryId\": \"6904b9cf25500064c913d52b\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/addCourseToCategory",
+              "host": ["{{base_url}}"],
+              "path": ["course", "addCourseToCategory"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Rating (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"courseId\": \"6904bbe0b51093e3d0bc4637\",\n  \"rating\": 5,\n  \"review\": \"Great course!\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/course/createRating",
+              "host": ["{{base_url}}"],
+              "path": ["course", "createRating"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Average Rating",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reviews",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": ""
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "item": [
+        {
+          "name": "Contact Us",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ankit\",\n  \"lastName\": \"Kumar\",\n  \"email\": \"erankitkr011@gmail.com\",\n  \"message\": \"I need help with my course.\",\n  \"phoneNumber\": \"+1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/contact/contactUs",
+              "host": ["{{base_url}}"],
+              "path": ["contact", "contactUs"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ]
+}

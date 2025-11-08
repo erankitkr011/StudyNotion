@@ -75,7 +75,6 @@ const categoryPageDetails = async (req, res) => {
         .json({ success: false, message: "Category not found" });
     }
 
-
     if (selectedCategory.courses.length === 0) {
       console.log("No courses found for the selected category.");
       return res.status(204).json({
@@ -87,15 +86,29 @@ const categoryPageDetails = async (req, res) => {
     const categoriesExceptSelected = await Category.find({
       _id: { $ne: categoryId },
     });
-    let differentCategory = await Category.findOne(
-      categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
-        ._id
-    )
-      .populate({
-        path: "courses",
-        match: { status: "Published" },
-      })
-      .exec();
+    // let differentCategory = await Category.findOne(
+    //   categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
+    //     ._id
+    // )
+    //   .populate({
+    //     path: "courses",
+    //     match: { status: "Published" },
+    //   })
+    //   .exec();
+    let differentCategory = null;
+    if (
+      Array.isArray(categoriesExceptSelected) &&
+      categoriesExceptSelected.length > 0
+    ) {
+      const idx = getRandomInt(categoriesExceptSelected.length);
+      const otherId = categoriesExceptSelected[idx]._id;
+      differentCategory = await Category.findById(otherId)
+        .populate({
+          path: "courses",
+          match: { status: "Published" },
+        })
+        .exec();
+    }
     console.log();
 
     const allCategories = await Category.find()
@@ -104,7 +117,7 @@ const categoryPageDetails = async (req, res) => {
         match: { status: "Published" },
         populate: {
           path: "instructor",
-        }
+        },
       })
       .exec();
     const allCourses = allCategories.flatMap((category) => category.courses);
@@ -121,7 +134,7 @@ const categoryPageDetails = async (req, res) => {
       },
     });
   } catch (error) {
-    console.log("Internal server error" , error);
+    console.log("Internal server error", error);
     return res.status(500).json({
       success: false,
       message: "Internal server error",

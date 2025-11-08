@@ -1,0 +1,530 @@
+{
+  "info": {
+    "name": "StudyNotion API",
+    "_postman_id": "studynotion-collection",
+    "description": "Collection for testing StudyNotion backend. Set {{base_url}} and set {{token}} after login.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4000/api/v1"
+    },
+    {
+      "key": "token",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Signup",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"firstName\": \"Ankit\",\n  \"lastName\": \"Kumar\",\n  \"email\": \"erankitkr011@gmail.com\",\n  \"password\": \"123\",  \n \"confirmPassword\": \"123\",  \n \"accountType\": \"Student\",  \n \"otp\": \"123456\",  \n \"contactNumber\": \"1234567890\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/signup"
+            }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"test@example.com\",\n  \"password\": \"Password123\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login"
+            }
+          }
+        },
+        {
+          "name": "Send OTP",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"erankitkr011@gmail.com\" }"
+            },
+            "url": { "raw": "{{base_url}}/auth/sendotp" }
+          }
+        },
+        {
+          "name": "Change Password (auth)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"oldPassword\": \"Password123\", \"newPassword\": \"NewPass123\", \"confirmPassword\": \"NewPass123\"}"
+            },
+            "url": { "raw": "{{base_url}}/auth/changepassword" }
+          }
+        },
+        {
+          "name": "Reset Password Token",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"test@example.com\" }"
+            },
+            "url": { "raw": "{{base_url}}/auth/reset-password-token" }
+          }
+        },
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"token\": \"<token-from-email>\", \"password\": \"NewPass123\" }"
+            },
+            "url": { "raw": "{{base_url}}/auth/reset-password" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Get User Details (auth)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/profile/getUserDetails" }
+          }
+        },
+        {
+          "name": "Update Profile (auth)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Updated Name\", \"about\": \"Short bio\" }"
+            },
+            "url": { "raw": "{{base_url}}/profile/updateProfile" }
+          }
+        },
+        {
+          "name": "Update Display Picture (auth) - form-data",
+          "request": {
+            "method": "PUT",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [{ "key": "file", "type": "file", "src": "" }]
+            },
+            "url": { "raw": "{{base_url}}/profile/updateDisplayPicture" }
+          }
+        },
+        {
+          "name": "Delete Account (auth)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/profile/deleteProfile" }
+          }
+        },
+        {
+          "name": "Get Enrolled Courses (auth)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/profile/getEnrolledCourses" }
+          }
+        },
+        {
+          "name": "Get Instructor Dashboard (auth,isInstructor)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/profile/getInstructorDashboardDetails"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Payments",
+      "item": [
+        {
+          "name": "Capture Payment (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"amount\": 1000, \"currency\": \"INR\", \"courseId\": \"<courseId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/payment/capturePayment" }
+          }
+        },
+        {
+          "name": "Verify Payment (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"razorpay_order_id\": \"<id>\", \"razorpay_payment_id\": \"<id>\", \"razorpay_signature\": \"<sig>\", \"courseId\": \"<courseId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/payment/verifyPayment" }
+          }
+        },
+        {
+          "name": "Send Payment Success Email (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"email\": \"test@example.com\", \"courseTitle\": \"Course Name\" }"
+            },
+            "url": { "raw": "{{base_url}}/payment/sendPaymentSuccessEmail" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Course",
+      "item": [
+        {
+          "name": "Create Course (auth,isInstructor) - form-data",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "title", "value": "My Course", "type": "text" },
+                {
+                  "key": "description",
+                  "value": "Course description",
+                  "type": "text"
+                },
+                { "key": "price", "value": "499", "type": "text" },
+                { "key": "category", "value": "<categoryId>", "type": "text" },
+                { "key": "thumbnail", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{base_url}}/course/createCourse" }
+          }
+        },
+        {
+          "name": "Add Section (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"<courseId>\", \"title\": \"Section 1\", \"description\": \"\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/addSection" }
+          }
+        },
+        {
+          "name": "Update Section (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"sectionId\": \"<id>\", \"title\": \"Updated Section\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/updateSection" }
+          }
+        },
+        {
+          "name": "Delete Section (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"sectionId\": \"<id>\", \"courseId\": \"<courseId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/deleteSection" }
+          }
+        },
+        {
+          "name": "Add SubSection (auth,isInstructor) - form-data",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "sectionId", "value": "<sectionId>", "type": "text" },
+                { "key": "title", "value": "Lecture 1", "type": "text" },
+                { "key": "type", "value": "video", "type": "text" },
+                { "key": "video", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{base_url}}/course/addSubSection" }
+          }
+        },
+        {
+          "name": "Update SubSection (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"subSectionId\": \"<id>\", \"title\": \"Updated Lecture\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/updateSubSection" }
+          }
+        },
+        {
+          "name": "Delete SubSection (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"subSectionId\": \"<id>\", \"courseId\": \"<courseId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/deleteSubSection" }
+          }
+        },
+        {
+          "name": "Get All Courses",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/course/getAllCourses" }
+          }
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"<courseId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/getCourseDetails" }
+          }
+        },
+        {
+          "name": "Edit Course (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                { "key": "courseId", "value": "<courseId>", "type": "text" },
+                { "key": "title", "value": "Edited Title", "type": "text" },
+                { "key": "thumbnail", "type": "file", "src": "" }
+              ]
+            },
+            "url": { "raw": "{{base_url}}/course/editCourse" }
+          }
+        },
+        {
+          "name": "Get Instructor Courses (auth,isInstructor)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": { "raw": "{{base_url}}/course/getInstructorCourses" }
+          }
+        },
+        {
+          "name": "Get Full Course Details (auth)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{token}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"<courseId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/getFullCourseDetails" }
+          }
+        },
+        {
+          "name": "Delete Course (auth)",
+          "request": {
+            "method": "DELETE",
+            "header": [{ "key": "Authorization", "value": "Bearer {{token}}" }],
+            "url": {
+              "raw": "{{base_url}}/course/deleteCourse?courseId=<courseId>"
+            }
+          }
+        },
+        {
+          "name": "Search Course",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{ \"query\": \"javascript\" }" },
+            "url": { "raw": "{{base_url}}/course/searchCourse" }
+          }
+        },
+        {
+          "name": "Update Course Progress (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"<courseId>\", \"subSectionId\": \"<subSectionId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/updateCourseProgress" }
+          }
+        },
+        {
+          "name": "Create Category (auth,isAdmin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Programming\", \"description\": \"Category\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/createCategory" }
+          }
+        },
+        {
+          "name": "Show All Categories",
+          "request": {
+            "method": "GET",
+            "url": { "raw": "{{base_url}}/course/showAllCategories" }
+          }
+        },
+        {
+          "name": "Get Category Page Details",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"categoryId\": \"<categoryId>\", \"page\": 1 }"
+            },
+            "url": { "raw": "{{base_url}}/course/getCategoryPageDetails" }
+          }
+        },
+        {
+          "name": "Add Course To Category (auth,isInstructor)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"<courseId>\", \"categoryId\": \"<categoryId>\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/addCourseToCategory" }
+          }
+        },
+        {
+          "name": "Create Rating (auth,isStudent)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{token}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"courseId\": \"<courseId>\", \"rating\": 5, \"review\": \"Great course\" }"
+            },
+            "url": { "raw": "{{base_url}}/course/createRating" }
+          }
+        },
+        {
+          "name": "Get Average Rating",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/course/getAverageRating?courseId=<courseId>"
+            }
+          }
+        },
+        {
+          "name": "Get Reviews",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{base_url}}/course/getReviews?courseId=<courseId>&page=1"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Contact",
+      "item": [
+        {
+          "name": "Contact Us",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{ \"name\": \"Visitor\", \"email\": \"visitor@example.com\", \"message\": \"Hello, I need help\" }"
+            },
+            "url": { "raw": "{{base_url}}/contact/contactUs" }
+          }
+        }
+      ]
+    }
+  ]
+}
