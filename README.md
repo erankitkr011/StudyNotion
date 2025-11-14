@@ -58,3 +58,89 @@ StudyNotion is a full-stack ed-tech platform where instructors can create, manag
 ```bash
 git clone https://github.com/your-username/studynotion.git
 cd StudyNotion
+```
+
+# 🚀 Running StudyNotion with Docker
+
+StudyNotion is fully containerized using **Docker**, allowing you to run the full application (Frontend + Backend + MongoDB) with a single command.
+
+---
+
+## 📦 Prerequisites
+
+- Install **Docker Desktop**  
+  👉 https://www.docker.com/products/docker-desktop/
+
+- Clone the repository:
+
+```bash
+git clone https://github.com/your-username/StudyNotion.git
+cd StudyNotion
+```
+
+▶️ Start Application Using Docker
+In the project root (where docker-compose.yml exists), run:
+
+```bash
+docker compose up -d --build
+```
+
+This will:
+Build and start the frontend
+Build and start the backend
+Start MongoDB
+Connect all containers automatically
+
+🌍 Access the Application
+Service	URL	Description
+Frontend	http://localhost:5173	React App (Nginx)
+Backend API	http://localhost:4000/api/v1	Express API
+MongoDB	localhost:27016	Database
+
+🔁 Restart Services
+```bash
+docker compose restart
+```
+
+🛑 Stop All Containers
+```bash
+docker compose down
+```
+
+🧹 Full Cleanup (Images + Containers + Volumes)
+```bash
+docker compose down --rmi all --volumes
+```
+
+🛠️ Running Without Docker (Local Setup)
+1️⃣ Backend Setup
+
+```bash
+cd server
+npm install
+```
+
+Create .env inside /server: .env.example are given for sample
+
+Start backend:
+
+```bash
+npm run start
+```
+
+2️⃣ Frontend Setup
+
+```bash
+cd ../frontend
+npm install
+```
+
+Create .env inside /frontend: .env.example are given for sample
+Start frontend:
+
+```bash
+npm run dev
+```
+
+🎉 That's it!
+Your StudyNotion application is now fully set up and running — either with Docker (recommended) or locally for development.

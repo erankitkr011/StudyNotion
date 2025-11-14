@@ -32,9 +32,6 @@ services:
     container_name: studynotion-frontend
     ports:
       - "${FRONTEND_PORT:-5173}:80"
-    # environment:
-      # point frontend at backend service inside compose or localhost on host after mapping
-      # - VITE_API_BASE_URL=http://backend:4000/api/v1
 
 volumes:
   mongodb_data:
