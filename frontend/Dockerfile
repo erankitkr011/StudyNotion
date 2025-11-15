@@ -1,5 +1,5 @@
 # build stage
-FROM node:18-alpine AS build
+FROM node:22-alpine AS build
 WORKDIR /app
 
 # Accept build arguments
@@ -13,9 +13,13 @@ COPY . .
 RUN npm run build
 
 # production nginx stage
-FROM nginx:stable-alpine
+FROM nginxinc/nginx-unprivileged:alpine
+USER root
+RUN apk update && apk upgrade --no-cache && rm -rf /var/cache/apk/*
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN chown -R 101:101 /usr/share/nginx/html /etc/nginx/conf.d/default.conf
+USER 101
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
