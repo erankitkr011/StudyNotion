@@ -24,6 +24,6 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 
-#  docker build -d --build-arg VITE_BACKEND_URL=http://localhost:4000/api/v1 --build-arg VITE_RAZORPAY_KEY=rzp_test_6JJGyNVMuN0u3J -t studynotion-frontend .
+#  docker build -d --build-arg VITE_BACKEND_URL=http://localhost:4000/api/v1 --build-arg VITE_RAZORPAY_KEY=xxxxxxxxx -t studynotion-frontend .
 
 # docker run -d -p 3000:80 --name studynotion-frontend studynotion-frontend
